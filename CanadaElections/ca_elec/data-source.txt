@@ -1,0 +1,10 @@
+http://canadianelectionsdatabase.ca/PHASE5/?p=0&type=election&ID=776#page_1=ontario
+
+Canadian Federal Election Map is an interactive google map, which shows the provinces in unique colour based on the result of the election. The colour is made using RGB Colour Model. 
+
+"The RGB color model is an additive color model in which red, green and blue light are added together in various ways to reproduce a broad array of colors. 
+A typical RGB color selector in graphic software. Each slider ranges from 0 to 255. Hexadecimal 8-bit RGB representations of the main 125 colors
+A color in the RGB color model is described by indicating how much of each of the red, green, and blue is included. The color is expressed as an RGB triplet (r,g,b), each component of which can vary from zero to a defined maximum value. If all the components are at zero the result is black; if all are at maximum, the result is the brightest representable white." (wikipedia.org)
+
+Each of the three major parties are represented by one of Red, Green, and Blue and the number of each colour is determined based on the portion of the seat won by the party in the province. And   also, opacity of each colour is determined based on the portion of the seat in the province; the more seats in the province the more opacity of the colour.
+
