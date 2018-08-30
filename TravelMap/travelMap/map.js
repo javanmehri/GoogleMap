@@ -1,71 +1,53 @@
-// All needed variables 
+// All needed variables
 var map;
 var zoomLevel = 2;
-//var zoomLevelPic ;
-//var centerPoint = {lat: 25, lng: 10};
-
 var markers;
-var markerIcon = 'index/img/icons/pin2.png';
-var centerPoint = {lat:29.625829, lng:52.558476} ;
+var markerIcon = 'travelMap/img/icons/pin2.png';
+var picDir = "travelMap/img/";
+var centerPoint = {lat:25, lng:10} ;
 var centerControlDiv;
 
-//var picMarkers= [];
-//var picPersGOAN = 'index/img/persepolis_GOAN.jpg';
-//var picShirazHafezieh = 'index/img/hafezieh.jpg';
 // <-------------------------------------------------------  enter pics here ...
-var picDir = "index/img/";
 var locationInfo = [
-    ['Persepolis, Gathe Of All Nations', 29.936218, 52.889074, 'persepolis_GOAN.jpg',  'https://www.google.ca' ],
-    ['Shiraz, Tomb Of Hafez',            29.625829, 52.558476, 'hafezieh.jpg',         'http://www.bbc.com/persian' ],
-    /*
-    add more locations here on the form :
-    [ name, lat, long, img,  gallery link address ]
-   
+    ['Persepolis, Gathe Of All Nations', 29.936218, 52.889074, 'https://www.google.ca', 	'0/', 2, 0],
+    ['Shiraz, Tomb Of Hafez',            29.625829, 52.558476, 'http://www.bbc.com/persian', '1/', 2, 0],
+    // <--------------------------------------------------  enter locations here ...
+    /* add more locations here on the form :
+    [ name, lat, long, gallery link address, pic directory, number of pics]
     ..
     */
 ];
 
-var locations = []; 
-//var locationPics =[];    // stores all pics
-//var locationPicsOn = []; // stores tures if pic icon is already on
-//var locationLables = []; // stores all lables 
+const indexLocInfo_name = 0;
+const indexLocInfo_lat = 1;
+const indexLocInfo_lng = 2;
+const indexLocInfo_link = 3;
+const indexLocInfo_picDir = 4;
+const indexLocInfo_numOfPics = 5;
+const indexLocInfo_currentPic = 6;
 
-//var shiraz_TombOfHafez =  {lat:29.625829, lng:52.558476}; // 29.625829, 52.558476          < Checked >
-//locations.push(shiraz_TombOfHafez);
+var locations = [];
+var locationPicsOnOff = []; // stores tures if pic icon is already on
 
-//var persepolis_GOAN =  {lat:29.936218, lng:52.889074}; // 29.936218, 52.889074             < Checked >
-//locations.push(persepolis_GOAN);
-// <--------------------------------------------------  enter locations here ...
-
-
-
-        
-
-
-        
 // ======================================================================================
 //	initialize the map with the options
 // --------------------------------------------------------------------------------------
 function initMap() {
 
-	createMap(); // creates the base map
-  createMarkers(); // creates the markers; not shows on the map until create marker clustes 
-  createMarkerCluster(); // creates the marker clusters
-  	
-  //createIconLabels();
-  	
-	
-	
-  //map.addListener('zoom_changed', zoomChecker);
-    
-     
-    
-  // add a controll to the map (reset)
-  centerControlDiv = document.createElement('div');
+	createBaseMap(); // creates the base map
+	createMarkers(); // creates the markers; not shows on the map until create marker clustes
+	createMarkerCluster(); // creates the marker clusters
 
-  var centerControl = new CenterControl(centerControlDiv, map);   
+  //map.addListener('zoom_changed', zoomChecker);
+
+  // add a controll to the map (reset)
+  //centerControlDiv = document.createElement('div');
+
+  /*
+  var centerControl = new CenterControl(centerControlDiv, map);
     centerControlDiv.index = 1;
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+    */
 
 }
 
@@ -73,22 +55,22 @@ function initMap() {
 // ======================================================================================
 //	Creates a new map with the options 				                                       < Checked >
 // --------------------------------------------------------------------------------------
-function createMap() {
-  var mapCanvas = document.getElementById("map");
-  var mapOptions = {
-		zoom: zoomLevel,         
+function createBaseMap() {
+	var mapCanvas = document.getElementById("map");
+  	var mapOptions = {
+		zoom: zoomLevel,
     	center: centerPoint,
     	zoomControl: true,
-		mapTypeControl: true,   
+		mapTypeControl: true,
     	scaleControl: true,
     	streetViewControl: false,
     	rotateControl: true,
-    	fullscreenControl: true,     
+    	fullscreenControl: true,
     	mapTypeControlOptions: {
       		style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-      		mapTypeIds: ['roadmap', 'terrain', 'satellite', 'hybrid'] 
-      	}  
-  }; 
+      		mapTypeIds: ['roadmap', 'terrain', 'satellite', 'hybrid']
+      	}
+  };
   map = new google.maps.Map(mapCanvas, mapOptions);
 }
 
@@ -98,6 +80,7 @@ function createMap() {
 // --------------------------------------------------------------------------------------
 function createMarkers() {
     setLocations();
+    setlocationPicsOnOff();
     var myIcon = {
          url: markerIcon, // url
          origin: new google.maps.Point(0,0), // origin
@@ -106,21 +89,20 @@ function createMarkers() {
     markers = locations.map(
       function(location, i) {
 		      var marker = new google.maps.Marker({
-  				  position: location,
-            title: "Click here to See the image!",
-  				  optimized:false,
-            //scaledSize: new google.maps.Size(100, 100),
-            shape: { coords: [0, 0, 60], type: 'circle' }, 
-            /*label: {
+  				  	position: location,
+            		title: "Click here to See the image!",
+  				  	optimized:false,
+            		shape: { coords: [0, 0, 60], type: 'circle' },
+            		/*label: {
                     text: "(?)",
                     color: "#000000",
                     fontSize: "16px",
                     fontWeight: "bold",
                     x: '20',
                     y: '10'
-            },*/ 
-            animation: google.maps.Animation.DROP,
-  			 	  icon: myIcon	
+            		},*/
+            		animation: google.maps.Animation.DROP,
+  			 	  	icon: myIcon
 		      });
 		      bounce(marker);
 		      clickEvent(marker);
@@ -129,13 +111,22 @@ function createMarkers() {
 }
 
 // ======================================================================================
-//  Populates the locations array                                                     < Checked >
+//  Populates the locations array                                                    		 < Checked >
 // --------------------------------------------------------------------------------------
 function setLocations() {
     for(i=0; i<locationInfo.length; i++) {
-        var location =  { lat:locationInfo[i][1], lng:locationInfo[i][2] }; 
+        var location =  { lat:locationInfo[i][ indexLocInfo_lat ], lng:locationInfo[i][ indexLocInfo_lng ] };
         locations.push(location);
     }
+}
+
+// ======================================================================================
+//  Populates the ocationPicsOnOff array                                                     < Checked >
+// --------------------------------------------------------------------------------------
+function setlocationPicsOnOff() {
+	for(i=0; i<locationInfo.length; i++) {
+		locationPicsOnOff.push(false);
+	}
 }
 
 // ======================================================================================
@@ -155,17 +146,34 @@ function clickEvent(marker) {
 
     marker.addListener('click', mouseClick);
     function mouseClick() {
+
         var i = getIndexLocationOf(marker);
-        var title = locationInfo[i][0];
-        var img = picDir+locationInfo[i][3];
-        var link = locationInfo[i][4];
-        var content = '<b id="b">' + title + '</b>' + '<br>'+
-                      '<a href="' + link + '"  title="Click here to see all the pictures">' + 
-                          '<img src="' + img + '" style="width:200px; padding-top:8px; ">'+
-                      '</a>';
+        var id = i.toString();
+        var title = locationInfo[i][ indexLocInfo_name ];
+        var link = locationInfo[i][ indexLocInfo_link ];
+        var n = locationInfo[i][ indexLocInfo_numOfPics ];
+        var markerPicsDir = locationInfo[i][ indexLocInfo_picDir ];
+        var pics = []; // stores all the marker's pics in the dir
+        var currentPicIndex = locationInfo[i][ indexLocInfo_currentPic ];
+        for(i=0; i<n; i++) {
+        	var pic = picDir + markerPicsDir + i.toString() + ".jpg";
+        	pics.push(pic);	
+        }
+        
+
+        var content = '<b>' + title + '</b>' + '<br>'+
+                      '<a href="' + link + '"  title="Click here to see all the pictures">' +
+                          '<img id="'+id+'" src="' + pics[currentPicIndex] + '" style="width:200px; padding-bottom:8px; padding-top:8px; ">'+
+                      '</a> <br> <div style="text-align:right;"> <b onclick="nextPic('+id+')" style="color:blue; cursor:pointer;"> >> Next Picture </b> </div>';
+
         var infowindow = new google.maps.InfoWindow();
         infowindow.setContent(content);
-        infowindow.open(map, marker);
+        infowindow.open(map, marker)
+
+        //window.alert("After the function ! ");
+
+
+
     }
 }
 
@@ -187,6 +195,10 @@ function getIndexLocationOf( marker ) {
     }
   }
   return index;
+}
+
+function getCurrentPic(i) {
+
 }
 
 
@@ -258,8 +270,65 @@ function CenterControl(controlDiv, map) {
           	zoomLevel = map.getZoom();
           	centerPoint = map.getCenter();
           	initMap();
-          	
-        });     
+
+        });
+}
+
+
+function readPicDir( dir ) {
+    //window.alert("inside readPicDir(...)"); // ok so far
+
+    var fs = require('fs');
+    var files = fs.readdirSync( dir );
+
+    window.alert(">> files.length: " + files.length );
+    window.alert(">> files: " + files );
+
+    return files;
+}
+
+
+function nextPic(locInfoIndex) {
+
+    var i = parseInt(locInfoIndex);
+    var id = i.toString();
+
+    var markerPicsDir = locationInfo[i][ indexLocInfo_picDir ];
+
+    locationInfo[ i ][ indexLocInfo_currentPic ]++;
+
+    var currentPicIndex = locationInfo[ i ][ indexLocInfo_currentPic ];
+    var n = locationInfo[ i ][ indexLocInfo_numOfPics];
+
+
+
+    
+
+    
+    //window.alert("> dir: "+dir);
+
+    //currentPicIndex++;
+
+    /*var pic = locationInfo[ index ][ currentPicIndex ]
+
+    var files = readPicDir( dir );
+    var currentIndex = locationInfo[index][ indexLocInfo_curretPicIndex ];
+    window.alert("> currentIndex: "+currentIndex);
+
+    locationInfo[index][ indexLocInfo_curretPicIndex ] = currentIndex+1;
+    window.alert("> currentIndex++: "+locationInfo[index][ indexLocInfo_curretPicIndex ]);
+
+    var nextPicIndex = locationInfo[ index ][ indexLocInfo_curretPicIndex ];
+
+    var file = files[nextPicIndex];
+	*/
+	if(currentPicIndex<n) {
+		var pic = picDir + markerPicsDir + currentPicIndex.toString() + ".jpg";
+		var controlText = document.getElementById(id);
+    	//window.alert("nextPic");
+    	controlText.src = pic;
+	}
+
 }
 
 
