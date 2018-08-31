@@ -1,9 +1,11 @@
+
 // All needed variables
 var map;
 var zoomLevel = 2;
 var markers;
 var markerIcon = 'travelMap/img/icons/pin2.png';
 var picDir = "travelMap/img/";
+var picWidth = 300;
 var centerPoint = {lat:25, lng:10} ;
 var centerControlDiv;
 
@@ -28,6 +30,7 @@ const indexLocInfo_currentPic = 6;
 
 var locations = [];
 var locationPicsOnOff = []; // stores tures if pic icon is already on
+var centerControl;
 
 // ======================================================================================
 //	initialize the map with the options
@@ -37,18 +40,16 @@ function initMap() {
 	createBaseMap(); // creates the base map
 	createMarkers(); // creates the markers; not shows on the map until create marker clustes
 	createMarkerCluster(); // creates the marker clusters
-
-  //map.addListener('zoom_changed', zoomChecker);
+	//createIconLabels();
+    
 
   // add a controll to the map (reset)
-  //centerControlDiv = document.createElement('div');
+  centerControlDiv = document.createElement('div');
 
-  /*
-  var centerControl = new CenterControl(centerControlDiv, map);
+  centerControl = new CenterControl(centerControlDiv, map);
     centerControlDiv.index = 1;
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
-    */
-
+    
 }
 
 
@@ -83,9 +84,13 @@ function createMarkers() {
     setlocationPicsOnOff();
     var myIcon = {
          url: markerIcon, // url
+         rotation: 45,
          origin: new google.maps.Point(0,0), // origin
-         labelOrigin: new google.maps.Point(50, -10) //OK
+         labelOrigin: new google.maps.Point(20,-10) //OK
     };
+
+    //deleteAllMarkers(markers);
+
     markers = locations.map(
       function(location, i) {
 		      var marker = new google.maps.Marker({
@@ -93,13 +98,14 @@ function createMarkers() {
             		title: "Click here to See the image!",
   				  	optimized:false,
             		shape: { coords: [0, 0, 60], type: 'circle' },
+            		labelClass: "labels",
+            		//labelStyle: {opacity: 0.25},
+            		//labelInBackground: true,
             		/*label: {
-                    text: "(?)",
-                    color: "#000000",
-                    fontSize: "16px",
-                    fontWeight: "bold",
-                    x: '20',
-                    y: '10'
+                    	text: "(?)",
+                    	color: '#b22222',
+                    	fontSize: "14px",
+                    	fontWeight: "bold"
             		},*/
             		animation: google.maps.Animation.DROP,
   			 	  	icon: myIcon
@@ -114,6 +120,7 @@ function createMarkers() {
 //  Populates the locations array                                                    		 < Checked >
 // --------------------------------------------------------------------------------------
 function setLocations() {
+	locations = [];
     for(i=0; i<locationInfo.length; i++) {
         var location =  { lat:locationInfo[i][ indexLocInfo_lat ], lng:locationInfo[i][ indexLocInfo_lng ] };
         locations.push(location);
@@ -159,16 +166,80 @@ function clickEvent(marker) {
         	var pic = picDir + markerPicsDir + i.toString() + ".jpg";
         	pics.push(pic);	
         }
+
+        //window.alert("picWidth: "+picWidth);
         
 
-        var content = '<b>' + title + '</b>' + '<br>'+
-                      '<a href="' + link + '"  title="Click here to see all the pictures">' +
-                          '<img id="'+id+'" src="' + pics[currentPicIndex] + '" style="width:200px; padding-bottom:8px; padding-top:8px; ">'+
-                      '</a> <br> <div style="text-align:right;"> <b onclick="nextPic('+id+')" style="color:blue; cursor:pointer;"> >> Next Picture </b> </div>';
+        var content = '<a href="' + link + '"  title="Click here to see all the pictures">' +
+                      '<img id="'+id+'" src="' + pics[currentPicIndex] + '" style="width:'+picWidth.toString()+'px; padding-bottom:8px; padding-top:8px; "></img></a>'+
+                      '<br> <span style="float:left;"> <b id="'+id+'pre'+'" onclick="prePic('+id+')" style="color:gray;"> Previous << </b> </span>'+
+                      '<span style="float:right;"> <b id="'+id+'next'+'" onclick="nextPic('+id+')" style="color:blue; cursor:pointer;"> >> Next </b> </span>'+
+                      '<br> <hr> <center id="'+id+'cen'+'"  style="color:#b22222; padding-top:5px; padding-down:5px; font-size:110%; font-style: oblique; font-weight: bold;"  > '+title+' </center>';
 
         var infowindow = new google.maps.InfoWindow();
         infowindow.setContent(content);
-        infowindow.open(map, marker)
+        infowindow.setZIndex(0);
+        infowindow.addListener('closeclick', infowindowClose);
+        function infowindowClose() {
+        	locationPicsOnOff[id] = false;
+        }
+
+        infowindow.addListener('closeclick', infowindowClose);
+        function infowindowClose() {
+        	locationPicsOnOff[id] = false;
+        	locationInfo[id][indexLocInfo_currentPic] = 0;
+        }
+
+        infowindow.open(map, marker);
+
+        locationPicsOnOff[id] = true;
+
+        map.addListener('zoom_changed', zoomChecker);
+
+        var zoomLevelBefor = map.getZoom();
+
+        function zoomChecker() {
+        	var df = zoomLevelBefor - map.getZoom();
+        	//window.alert(" > df: "+df);
+
+        	if (df > 1) {
+        		//window.alert(" > window.alert: "+window.alert);
+        		for(i=0; i<locationPicsOnOff.length; i++) {
+        			if (locationPicsOnOff[i]==true) {
+        				try {
+        					var controlText = document.getElementById(id);
+        					controlText.style = "width:150px; padding-bottom:8px; padding-top:8px; ";
+        					picWidth = 150;
+        				}
+        				catch {
+
+        				}
+
+        				
+        			}
+        		}
+        	}
+
+        	if (df < 1) {
+        		//window.alert(" > window.alert: "+window.alert);
+        		for(i=0; i<locationPicsOnOff.length; i++) {
+        			if (locationPicsOnOff[i]==true) {
+        				try {
+        					var controlText = document.getElementById(id);
+        					controlText.style = "width:300px; padding-bottom:8px; padding-top:8px; ";
+        					picWidth = 300;
+        				}
+        				catch {
+
+        				}
+
+        				
+        			}
+        		}
+        	}
+
+
+        }
 
         //window.alert("After the function ! ");
 
@@ -219,6 +290,7 @@ function createMarkerCluster() {
 //	Removes all of the markers in the array					 	                            < Checked >
 // --------------------------------------------------------------------------------------
 function deleteAllMarkers(markers) {
+	//window.alert("***");
 	for(i=0; i<markers.length; i++) {
 		deleteMarker(markers[i]);
 	}
@@ -248,6 +320,7 @@ function CenterControl(controlDiv, map) {
         controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
         controlUI.style.cursor = 'pointer';
         controlUI.style.marginBottom = '22px';
+        controlUI.style.marginTop = '10px';
         controlUI.style.textAlign = 'center';
         controlUI.title = 'Click to reset the map';
         controlDiv.appendChild(controlUI);
@@ -267,8 +340,12 @@ function CenterControl(controlDiv, map) {
         controlUI.addEventListener('click', function() {
         	//var chicago = {lat: 41.85, lng: -87.65};
           	//map.setCenter(chicago);
-          	zoomLevel = map.getZoom();
-          	centerPoint = map.getCenter();
+          	//zoomLevel = map.getZoom();
+          	//centerPoint = map.getCenter();
+          	//deleteAllMarkers(markers);
+          	//markerCluster.setMap(null);
+          	//markerCluster.clearMarkers();
+          	//markerCluster = null;
           	initMap();
 
         });
@@ -292,44 +369,78 @@ function nextPic(locInfoIndex) {
 
     var i = parseInt(locInfoIndex);
     var id = i.toString();
-
     var markerPicsDir = locationInfo[i][ indexLocInfo_picDir ];
-
     locationInfo[ i ][ indexLocInfo_currentPic ]++;
-
     var currentPicIndex = locationInfo[ i ][ indexLocInfo_currentPic ];
     var n = locationInfo[ i ][ indexLocInfo_numOfPics];
 
-
-
-    
-
-    
-    //window.alert("> dir: "+dir);
-
-    //currentPicIndex++;
-
-    /*var pic = locationInfo[ index ][ currentPicIndex ]
-
-    var files = readPicDir( dir );
-    var currentIndex = locationInfo[index][ indexLocInfo_curretPicIndex ];
-    window.alert("> currentIndex: "+currentIndex);
-
-    locationInfo[index][ indexLocInfo_curretPicIndex ] = currentIndex+1;
-    window.alert("> currentIndex++: "+locationInfo[index][ indexLocInfo_curretPicIndex ]);
-
-    var nextPicIndex = locationInfo[ index ][ indexLocInfo_curretPicIndex ];
-
-    var file = files[nextPicIndex];
-	*/
 	if(currentPicIndex<n) {
 		var pic = picDir + markerPicsDir + currentPicIndex.toString() + ".jpg";
 		var controlText = document.getElementById(id);
     	//window.alert("nextPic");
     	controlText.src = pic;
+
+    	if (currentPicIndex== n-1 ) {
+    		controlText = document.getElementById(id+'next');
+    		controlText.style = "color:gray;";
+    		controlText = document.getElementById(id+'pre');
+    		controlText.style = "color:blue; cursor:pointer;";
+    	}
+    	else
+    	{
+    		controlText = document.getElementById(id+'next');
+    		controlText.style = "color:blue; cursor:pointer;";
+    		controlText = document.getElementById(id+'pre');
+    		controlText.style = "color:gray;";
+    	}
+	}
+}
+
+
+function prePic(locInfoIndex) {
+
+    var i = parseInt(locInfoIndex);
+    var id = i.toString();
+    var markerPicsDir = locationInfo[i][ indexLocInfo_picDir ];
+    locationInfo[ i ][ indexLocInfo_currentPic ]--;
+    //window.alert("locationInfo[ i ][ indexLocInfo_currentPic ]: "+locationInfo[ i ][ indexLocInfo_currentPic ]);
+    var currentPicIndex = locationInfo[ i ][ indexLocInfo_currentPic ];
+    var n = locationInfo[ i ][ indexLocInfo_numOfPics];
+
+	if(currentPicIndex>=0 && currentPicIndex<n) {
+		var pic = picDir + markerPicsDir + currentPicIndex.toString() + ".jpg";
+		var controlText = document.getElementById(id);
+    	//window.alert("nextPic");
+    	controlText.src = pic;
+
+    	if (currentPicIndex==0) {
+    		controlText = document.getElementById(id+'pre');
+    		controlText.style = "color:gray;";
+    		controlText = document.getElementById(id+'next');
+    		controlText.style = "color:blue; cursor:pointer;";
+    	}
+    	else
+    	{
+    		controlText = document.getElementById(id+'pre');
+    		controlText.style = "color:blue; cursor:pointer;";
+    		controlText = document.getElementById(id+'next');
+    		controlText.style = "color:gray;";
+    	}
 	}
 
 }
+
+/*
+// ======================================================================================
+//  Create the related icon labels                                                         < Checked >
+// --------------------------------------------------------------------------------------
+function createIconLabels(){
+	for(i=0; i<markers.length; i++) {
+
+         markers[i].getLabel().text = locationInfo[i][indexLocInfo_name];
+
+	}
+}*/
 
 
 
