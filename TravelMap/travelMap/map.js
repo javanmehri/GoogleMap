@@ -5,13 +5,13 @@ var zoomLevel = 2;
 var markers;
 var markerIcon = 'travelMap/img/icons/pin2.png';
 var picDir = "travelMap/img/";
-var picWidth = 300;
+var picHeight ;
 var centerPoint = {lat:25, lng:10} ;
 var centerControlDiv;
 
 // <-------------------------------------------------------  enter pics here ...
 var locationInfo = [
-    ['Persepolis, Gathe Of All Nations', 29.936218, 52.889074, 'https://www.google.ca', 	'0/', 2, 0],
+    ['Persepolis, Gathe Of All Nations', 29.936218, 52.889074, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'0/', 5, 0],
     ['Shiraz, Tomb Of Hafez',            29.625829, 52.558476, 'http://www.bbc.com/persian', '1/', 2, 0],
     // <--------------------------------------------------  enter locations here ...
     /* add more locations here on the form :
@@ -37,6 +37,7 @@ var centerControl;
 // --------------------------------------------------------------------------------------
 function initMap() {
 
+	picHeight = 300;
 	createBaseMap(); // creates the base map
 	createMarkers(); // creates the markers; not shows on the map until create marker clustes
 	createMarkerCluster(); // creates the marker clusters
@@ -131,6 +132,7 @@ function setLocations() {
 //  Populates the ocationPicsOnOff array                                                     < Checked >
 // --------------------------------------------------------------------------------------
 function setlocationPicsOnOff() {
+	locationPicsOnOff = [];
 	for(i=0; i<locationInfo.length; i++) {
 		locationPicsOnOff.push(false);
 	}
@@ -155,6 +157,9 @@ function clickEvent(marker) {
     function mouseClick() {
 
         var i = getIndexLocationOf(marker);
+        var clicked = locationPicsOnOff[i];
+        
+
         var id = i.toString();
         var title = locationInfo[i][ indexLocInfo_name ];
         var link = locationInfo[i][ indexLocInfo_link ];
@@ -166,15 +171,13 @@ function clickEvent(marker) {
         	var pic = picDir + markerPicsDir + i.toString() + ".jpg";
         	pics.push(pic);	
         }
-
-        //window.alert("picWidth: "+picWidth);
         
 
-        var content = '<a href="' + link + '"  title="Click here to see all the pictures">' +
-                      '<img id="'+id+'" src="' + pics[currentPicIndex] + '" style="width:'+picWidth.toString()+'px; padding-bottom:8px; padding-top:8px; "></img></a>'+
-                      '<br> <span style="float:left;"> <b id="'+id+'pre'+'" onclick="prePic('+id+')" style="color:gray;"> Previous << </b> </span>'+
-                      '<span style="float:right;"> <b id="'+id+'next'+'" onclick="nextPic('+id+')" style="color:blue; cursor:pointer;"> >> Next </b> </span>'+
-                      '<br> <hr> <center id="'+id+'cen'+'"  style="color:#b22222; padding-top:5px; padding-down:5px; font-size:110%; font-style: oblique; font-weight: bold;"  > '+title+' </center>';
+        var content = '<a href="' + link + '"  title="Click here to see all the pictures" target="_blank" > <br>' +
+                      '<img id="'+id+'" src="' + pics[currentPicIndex] + '" style="height:'+picHeight.toString()+'px; margin-left:10px; border: 1px solid black;"></img></a>'+
+                      '<br> <br> <span style="float:left; margin-left:15px; "> <b id="'+id+'pre'+'" onclick="prePic('+id+')" style="color:gray;"> Previous << </b> </span>'+
+                      '<span style="float:right;"> <b id="'+id+'next'+'" onclick="nextPic('+id+')" style=" font-size:100%; color:blue; cursor:pointer;"> >> Next </b> </span>'+
+                      '<br> <hr style="margin-left:15px; "> <center id="'+id+'cen'+'"  style="color:#b22222; padding-top:5px; padding-down:5px; font-size:110%; font-style: oblique; font-weight: bold;"  > '+title+' </center>';
 
         var infowindow = new google.maps.InfoWindow();
         infowindow.setContent(content);
@@ -190,9 +193,11 @@ function clickEvent(marker) {
         	locationInfo[id][indexLocInfo_currentPic] = 0;
         }
 
-        infowindow.open(map, marker);
+		if(!clicked) {
+			infowindow.open(map, marker);
+        	locationPicsOnOff[id] = true;
+		}
 
-        locationPicsOnOff[id] = true;
 
         map.addListener('zoom_changed', zoomChecker);
 
@@ -208,8 +213,10 @@ function clickEvent(marker) {
         			if (locationPicsOnOff[i]==true) {
         				try {
         					var controlText = document.getElementById(id);
-        					controlText.style = "width:150px; padding-bottom:8px; padding-top:8px; ";
-        					picWidth = 150;
+        					controlText.style = "margin-left:10px; height:150px; border: 1px solid black; ";
+        					picHeight = 150;
+        					controlText = document.getElementById(id+'cen');
+        					controlText.style = "color:#b22222; padding-top:5px; padding-down:5px; font-size:90%; font-style: oblique; font-weight: bold;";
         				}
         				catch {
 
@@ -226,8 +233,10 @@ function clickEvent(marker) {
         			if (locationPicsOnOff[i]==true) {
         				try {
         					var controlText = document.getElementById(id);
-        					controlText.style = "width:300px; padding-bottom:8px; padding-top:8px; ";
-        					picWidth = 300;
+        					controlText.style = "margin-left:10px; height:300px; border: 1px solid black; ";
+        					picHeight = 300;
+        					controlText = document.getElementById(id+'cen');
+        					controlText.style = "color:#b22222; padding-top:5px; padding-down:5px; font-size:110%; font-style: oblique; font-weight: bold;";
         				}
         				catch {
 
@@ -245,8 +254,8 @@ function clickEvent(marker) {
 
 
 
-    }
-}
+    	}
+	}
 
 // ======================================================================================
 //  use for finding locations in the locations array                                       < Checked >
