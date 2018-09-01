@@ -5,14 +5,14 @@ var zoomLevel = 2;
 var markers;
 var markerIcon = 'travelMap/img/icons/pin2.png';
 var picDir = "travelMap/img/";
-var picHeight ;
 var centerPoint = {lat:25, lng:10} ;
 var centerControlDiv;
 
-// <-------------------------------------------------------  enter pics here ...
+// <-------------------------------------------------------  enter pics here ... 
 var locationInfo = [
-    ['Persepolis, Gathe Of All Nations', 29.936218, 52.889074, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'0/', 5, 0],
-    ['Shiraz, Tomb Of Hafez',            29.625829, 52.558476, 'http://www.bbc.com/persian', '1/', 2, 0],
+    ['Persepolis, Gathe Of All Nations' , 29.936218, 52.889074, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_goan/', 8, 0],
+    ['Persepolis, The eagle-griffin'	, 29.936539, 52.889715, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_eg/', 2, 0],
+    ['Shiraz, Tomb Of Hafez'			, 29.625829, 52.558476, 'https://www.flickr.com/photos/126978341@N07/albums/72157700531417744/with/37276535816/', 'places/shir_toh/', 4, 0],
     // <--------------------------------------------------  enter locations here ...
     /* add more locations here on the form :
     [ name, lat, long, gallery link address, pic directory, number of pics]
@@ -37,7 +37,6 @@ var centerControl;
 // --------------------------------------------------------------------------------------
 function initMap() {
 
-	picHeight = 300;
 	createBaseMap(); // creates the base map
 	createMarkers(); // creates the markers; not shows on the map until create marker clustes
 	createMarkerCluster(); // creates the marker clusters
@@ -174,10 +173,10 @@ function clickEvent(marker) {
         
 
         var content = '<a href="' + link + '"  title="Click here to see all the pictures" target="_blank" > <br>' +
-                      '<img id="'+id+'" src="' + pics[currentPicIndex] + '" style="height:'+picHeight.toString()+'px; margin-left:10px; border: 1px solid black;"></img></a>'+
-                      '<br> <br> <span style="float:left; margin-left:15px; "> <b id="'+id+'pre'+'" onclick="prePic('+id+')" style="color:gray;"> Previous << </b> </span>'+
-                      '<span style="float:right;"> <b id="'+id+'next'+'" onclick="nextPic('+id+')" style=" font-size:100%; color:blue; cursor:pointer;"> >> Next </b> </span>'+
-                      '<br> <hr style="margin-left:15px; "> <center id="'+id+'cen'+'"  style="color:#b22222; padding-top:5px; padding-down:5px; font-size:110%; font-style: oblique; font-weight: bold;"  > '+title+' </center>';
+                      '<img class="picBig" id="'+id+'" src="' + pics[currentPicIndex] + '" ></img></a>'+
+                      '<br> <span class="leftBig" id="'+id+'pre'+'" onclick="prePic('+id+')" style="color:gray;"> <b> Previous << </b> </span>'+
+                      '<span class="rightBig" id="'+id+'next'+'" onclick="nextPic('+id+')" style=" font-size:100%; color:blue; cursor:pointer;"> <b> >> Next </b> </span>'+
+                      '<br> <hr class="lineBig" id="'+id+'line'+'" > <center class="titleBig" id="'+id+'cen'+'" > '+title+' </center>';
 
         var infowindow = new google.maps.InfoWindow();
         infowindow.setContent(content);
@@ -213,10 +212,15 @@ function clickEvent(marker) {
         			if (locationPicsOnOff[i]==true) {
         				try {
         					var controlText = document.getElementById(id);
-        					controlText.style = "margin-left:10px; height:150px; border: 1px solid black; ";
-        					picHeight = 150;
+        					controlText.className = "picSmall";
+        					controlText = document.getElementById(id+'pre');
+        					controlText.className = "leftSmall";
+        					controlText = document.getElementById(id+'next');
+        					controlText.className = "leftSmall";
         					controlText = document.getElementById(id+'cen');
-        					controlText.style = "color:#b22222; padding-top:5px; padding-down:5px; font-size:90%; font-style: oblique; font-weight: bold;";
+        					controlText.className = "titleSmall";
+        					controlText = document.getElementById(id+'line');
+        					controlText.className = "lineSmall";
         				}
         				catch {
 
@@ -233,10 +237,15 @@ function clickEvent(marker) {
         			if (locationPicsOnOff[i]==true) {
         				try {
         					var controlText = document.getElementById(id);
-        					controlText.style = "margin-left:10px; height:300px; border: 1px solid black; ";
-        					picHeight = 300;
+        					controlText.className = "picBig";
+        					controlText = document.getElementById(id+'pre');
+        					controlText.className = "leftBig";
+        					controlText = document.getElementById(id+'next');
+        					controlText.className = "rightBig";
         					controlText = document.getElementById(id+'cen');
-        					controlText.style = "color:#b22222; padding-top:5px; padding-down:5px; font-size:110%; font-style: oblique; font-weight: bold;";
+        					controlText.className = "titleBig";
+        					controlText = document.getElementById(id+'line');
+        					controlText.className = "lineBig";
         				}
         				catch {
 
@@ -249,9 +258,6 @@ function clickEvent(marker) {
 
 
         }
-
-        //window.alert("After the function ! ");
-
 
 
     	}
@@ -347,16 +353,7 @@ function CenterControl(controlDiv, map) {
 
         // Setup the click event listeners: simply set the map to Chicago.
         controlUI.addEventListener('click', function() {
-        	//var chicago = {lat: 41.85, lng: -87.65};
-          	//map.setCenter(chicago);
-          	//zoomLevel = map.getZoom();
-          	//centerPoint = map.getCenter();
-          	//deleteAllMarkers(markers);
-          	//markerCluster.setMap(null);
-          	//markerCluster.clearMarkers();
-          	//markerCluster = null;
           	initMap();
-
         });
 }
 
@@ -389,18 +386,22 @@ function nextPic(locInfoIndex) {
     	//window.alert("nextPic");
     	controlText.src = pic;
 
+    	var next = document.getElementById(id+'next');
+    	var pre  = document.getElementById(id+'pre');
+
     	if (currentPicIndex== n-1 ) {
-    		controlText = document.getElementById(id+'next');
-    		controlText.style = "color:gray;";
-    		controlText = document.getElementById(id+'pre');
-    		controlText.style = "color:blue; cursor:pointer;";
+    		next.style = "color:gray;";
+    		pre.style = "color:blue; cursor:pointer;";
     	}
-    	else
+    	else if (currentPicIndex== 0)
     	{
-    		controlText = document.getElementById(id+'next');
-    		controlText.style = "color:blue; cursor:pointer;";
-    		controlText = document.getElementById(id+'pre');
-    		controlText.style = "color:gray;";
+    		next.style = "color:blue; cursor:pointer;";
+    		pre.style = "color:gray;";
+    	}
+    	else 
+    	{
+    		next.style = "color:blue; cursor:pointer;";
+    		pre.style  = "color:blue; cursor:pointer;";
     	}
 	}
 }
@@ -422,18 +423,22 @@ function prePic(locInfoIndex) {
     	//window.alert("nextPic");
     	controlText.src = pic;
 
-    	if (currentPicIndex==0) {
-    		controlText = document.getElementById(id+'pre');
-    		controlText.style = "color:gray;";
-    		controlText = document.getElementById(id+'next');
-    		controlText.style = "color:blue; cursor:pointer;";
+    	var next = document.getElementById(id+'next');
+    	var pre  = document.getElementById(id+'pre');
+
+    	if (currentPicIndex== n-1 ) {
+    		next.style = "color:gray;";
+    		pre.style = "color:blue; cursor:pointer;";
     	}
-    	else
+    	else if (currentPicIndex== 0)
     	{
-    		controlText = document.getElementById(id+'pre');
-    		controlText.style = "color:blue; cursor:pointer;";
-    		controlText = document.getElementById(id+'next');
-    		controlText.style = "color:gray;";
+    		next.style = "color:blue; cursor:pointer;";
+    		pre.style = "color:gray;";
+    	}
+    	else 
+    	{
+    		next.style = "color:blue; cursor:pointer;";
+    		pre.style  = "color:blue; cursor:pointer;";
     	}
 	}
 
