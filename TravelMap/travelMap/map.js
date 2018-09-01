@@ -17,6 +17,7 @@ var locationInfo = [
     ['Persepolis, The Hundred Column Hall', 29.935345, 52.891043, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_hch/', 15, 0],
     ['Persepolis, The Apadana Palace'	  , 29.935177, 52.889596, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_a/'  , 15, 0],
     ['Persepolis, The Tachara Palace'	  , 29.934397, 52.889602, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_t/'  , 9, 0],
+    ['Persepolis, Tomb of Artaxerxes III' , 29.935828, 52.892438, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_toa/'  , 3, 0],
     ['Shiraz, Tomb Of Hafez'			  , 29.625829, 52.558476, 'https://www.flickr.com/photos/126978341@N07/albums/72157700531417744', 	'places/shir_toh/', 4, 0],
     ['Shiraz, Karim Khan Citadel'		  , 29.617685, 52.544715, 'https://www.flickr.com/photos/126978341@N07/albums/72157700531417744', 	'places/shir_kkc/', 4, 0],
     ['Shiraz, Tomb Of Sa\'di'			  , 29.622535, 52.583137, 'https://www.flickr.com/photos/126978341@N07/albums/72157700531417744', 	'places/shir_tos/', 4, 0],
