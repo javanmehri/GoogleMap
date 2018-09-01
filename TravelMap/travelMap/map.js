@@ -10,9 +10,17 @@ var centerControlDiv;
 
 // <-------------------------------------------------------  enter pics here ... 
 var locationInfo = [
-    ['Persepolis, Gathe Of All Nations' , 29.936218, 52.889074, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_goan/', 8, 0],
-    ['Persepolis, The eagle-griffin'	, 29.936539, 52.889715, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_eg/', 2, 0],
-    ['Shiraz, Tomb Of Hafez'			, 29.625829, 52.558476, 'https://www.flickr.com/photos/126978341@N07/albums/72157700531417744/with/37276535816/', 'places/shir_toh/', 4, 0],
+	['Persepolis, Entrance'   			  , 29.936061, 52.888546, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_e/', 1, 0],
+    ['Persepolis, Gathe Of All Nations'   , 29.936218, 52.889074, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_goan/', 8, 0],
+    ['Persepolis, The eagle-griffin'	  , 29.936539, 52.889715, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_eg/', 2, 0],
+    ['Persepolis, The Unfinished Gate'	  , 29.936310, 52.890645, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_ug/', 3, 0],
+    ['Persepolis, The Hundred Column Hall', 29.935345, 52.891043, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_hch/', 15, 0],
+    ['Persepolis, The Apadana Palace'	  , 29.935177, 52.889596, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_a/'  , 15, 0],
+    ['Persepolis, The Tachara Palace'	  , 29.934397, 52.889602, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_t/'  , 9, 0],
+    ['Shiraz, Tomb Of Hafez'			  , 29.625829, 52.558476, 'https://www.flickr.com/photos/126978341@N07/albums/72157700531417744', 	'places/shir_toh/', 4, 0],
+    ['Shiraz, Karim Khan Citadel'		  , 29.617685, 52.544715, 'https://www.flickr.com/photos/126978341@N07/albums/72157700531417744', 	'places/shir_kkc/', 4, 0],
+    ['Shiraz, Tomb Of Sa\'di'			  , 29.622535, 52.583137, 'https://www.flickr.com/photos/126978341@N07/albums/72157700531417744', 	'places/shir_tos/', 4, 0],
+
     // <--------------------------------------------------  enter locations here ...
     /* add more locations here on the form :
     [ name, lat, long, gallery link address, pic directory, number of pics]
@@ -166,6 +174,16 @@ function clickEvent(marker) {
         var markerPicsDir = locationInfo[i][ indexLocInfo_picDir ];
         var pics = []; // stores all the marker's pics in the dir
         var currentPicIndex = locationInfo[i][ indexLocInfo_currentPic ];
+
+		if (n == 1)
+    	{
+    		nextStyle = "color:gray;";
+    	}
+    	else
+    	{
+    		nextStyle = " color:blue; cursor:pointer;";
+    	}
+
         for(i=0; i<n; i++) {
         	var pic = picDir + markerPicsDir + i.toString() + ".jpg";
         	pics.push(pic);	
@@ -175,12 +193,11 @@ function clickEvent(marker) {
         var content = '<a href="' + link + '"  title="Click here to see all the pictures" target="_blank" > <br>' +
                       '<img class="picBig" id="'+id+'" src="' + pics[currentPicIndex] + '" ></img></a>'+
                       '<br> <span class="leftBig" id="'+id+'pre'+'" onclick="prePic('+id+')" style="color:gray;"> <b> Previous << </b> </span>'+
-                      '<span class="rightBig" id="'+id+'next'+'" onclick="nextPic('+id+')" style=" font-size:100%; color:blue; cursor:pointer;"> <b> >> Next </b> </span>'+
+                      '<span class="rightBig" id="'+id+'next'+'" onclick="nextPic('+id+')" style='+nextStyle+'> <b> >> Next </b> </span>'+
                       '<br> <hr class="lineBig" id="'+id+'line'+'" > <center class="titleBig" id="'+id+'cen'+'" > '+title+' </center>';
 
         var infowindow = new google.maps.InfoWindow();
         infowindow.setContent(content);
-        infowindow.setZIndex(0);
         infowindow.addListener('closeclick', infowindowClose);
         function infowindowClose() {
         	locationPicsOnOff[id] = false;
@@ -192,10 +209,13 @@ function clickEvent(marker) {
         	locationInfo[id][indexLocInfo_currentPic] = 0;
         }
 
+
 		if(!clicked) {
 			infowindow.open(map, marker);
         	locationPicsOnOff[id] = true;
 		}
+
+		
 
 
         map.addListener('zoom_changed', zoomChecker);
