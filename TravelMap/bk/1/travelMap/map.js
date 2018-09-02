@@ -5,9 +5,8 @@ var zoomLevel = 2;
 var markers;
 var markerIcon = 'travelMap/img/icons/pin2.png';
 var picDir = "travelMap/img/";
-var centerPoint = {lat:25, lng:10} ; 
+var centerPoint = {lat:25, lng:10} ;
 var centerControlDiv;
-var picBig = false;
 
 // <-------------------------------------------------------  enter pics here ... 
 var locationInfo = [
@@ -48,9 +47,6 @@ var centerControl;
 function initMap() {
 
 	createBaseMap(); // creates the base map
-
-	
-
 	createMarkers(); // creates the markers; not shows on the map until create marker clustes
 	createMarkerCluster(); // creates the marker clusters
 	//createIconLabels();
@@ -60,7 +56,7 @@ function initMap() {
   centerControlDiv = document.createElement('div');
 
   centerControl = new CenterControl(centerControlDiv, map);
-    //centerControlDiv.index = 1;
+    centerControlDiv.index = 1;
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
     
 }
@@ -86,7 +82,6 @@ function createBaseMap() {
       	}
   };
   map = new google.maps.Map(mapCanvas, mapOptions);
-
 }
 
 
@@ -126,7 +121,6 @@ function createMarkers() {
 		      });
 		      bounce(marker);
 		      clickEvent(marker);
-
 		      return marker;
       });
 }
@@ -167,11 +161,8 @@ function bounce(marker) {
 // --------------------------------------------------------------------------------------
 function clickEvent(marker) {
 
-
     marker.addListener('click', mouseClick);
     function mouseClick() {
-
-    	map.setCenter(marker.getPosition());
 
         var i = getIndexLocationOf(marker);
         var clicked = locationPicsOnOff[i];
@@ -200,8 +191,8 @@ function clickEvent(marker) {
         }
         
 
-        var content = '<br>' +
-                      '<img onclick ="picWin('+id+');" class="picMd" id="'+id+'" src="' + pics[currentPicIndex] + '" ></img>'+
+        var content = '<a href="' + link + '"  title="Click here to see all the pictures" target="_blank" > <br>' +
+                      '<img class="picBig" id="'+id+'" src="' + pics[currentPicIndex] + '" ></img></a>'+
                       '<br> <span class="leftBig" id="'+id+'pre'+'" onclick="prePic('+id+')" style="color:gray;"> <b> Previous << </b> </span>'+
                       '<span class="rightBig" id="'+id+'next'+'" onclick="nextPic('+id+')" style='+nextStyle+'> <b> >> Next </b> </span>'+
                       '<br> <hr class="lineBig" id="'+id+'line'+'" > <center class="titleBig" id="'+id+'cen'+'" > '+title+' </center>';
@@ -485,37 +476,6 @@ function createIconLabels(){
 
 	}
 }*/
-
-function picWin(id) {
-
-	    var center = map.getCenter();;  // a latLng
-		var offsetX = 0; // move center one quarter map width left
-		var offsetY;// move center one quarter map height down
-
-		var span = map.getBounds().toSpan(); // a latLng - # of deg map spans
-
-        var img = document.getElementById(id);
-        if(picBig==false) {
-        	img.className = "picBig";
-        	picBig = true;
-        	offsetY = 0.4; 
-        }
-        else {
-        	img.className = "picMd";
-        	picBig = false;
-        	offsetY = -0.4; 
-        }
-
-
-
-		var newCenter = { 
-    		lat: center.lat() + span.lat()*offsetY,
-    		lng: center.lng() + span.lng()*offsetX
-		};
-
-		map.panTo(newCenter);  // or map.setCenter(newCenter);
-
-}
 
 
 
