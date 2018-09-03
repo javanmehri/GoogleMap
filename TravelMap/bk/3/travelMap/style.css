@@ -1,0 +1,419 @@
+/* ==================================<( Reset: adjusts default browser settings )>=== */
+	* { margin: 0; padding: 0; }
+
+/* ======================================================================<( html )>===*/
+    /* what to do if the content of an element exceeds the size of the element's box*/
+	html { overflow-y: scroll; overflow-x: hidden;} 
+
+	/*  page background  */
+	html { 
+ 		background: url(img/bq.jpg) no-repeat top center ; 
+  		-webkit-background-size: cover;
+  		-moz-background-size: cover;
+  		background-size: cover;
+	}
+	
+/* =====================================================================<( body )>=== */
+	/* set up document font */
+	body {
+    	
+		font-family: Arial, Helvetica, sans-serif;
+		text-align: left;
+	}
+				
+
+/* ===================================================================<( Header )>=== */
+	header {
+		margin-top: 0px;
+		padding-top: 30px;
+		padding-bottom: 10px;
+		/*background: url(img/bq.jpg) no-repeat top center ; */
+		background-color: white; 
+		
+	}
+	
+	header h1.title {
+		font-family:  "Arial Black", Helvetica, sans-serif;
+  		white-space: pre;
+  		
+  		/*max-width: 1200px;*/
+  		width: 1300px;
+		margin: auto;
+
+    	line-height: 1em; 
+    	font-size: 1.8rem;
+   		/*color: #000066;*/
+   		
+   		padding-top: 30px;
+    	padding-right: 0px;
+    	padding-bottom: 10px;
+    	padding-left: 0px;
+    	
+    	/*text-decoration: underline;
+    	/*text-shadow: 2px 2px #000046;*/
+    	
+    	/*background-color:white;*/
+	}
+	
+/* ==================================================================<( main_part )>=== */
+	
+	#main_part {
+    	margin-top: auto;
+		max-width: 1300px;
+		max-height: 82vh;
+		margin: auto;
+			
+	}
+	
+/* =====================================================================<( main )>=== */
+	#main {
+		
+		background-color: white;  width: 92%;
+		float: left; border:1px solid;
+		margin-top: 2px;
+		margin-bottom: 20px;
+		margin-left: 40px;
+		
+		padding-top: 0px;
+    	padding-right: 0px;
+    	padding-bottom: 30px;
+    	padding-left: 0px;
+		
+		
+		
+	}	
+		
+	#main p { 
+	width:90%;
+	padding-bottom: 5px;
+	}
+	
+	#main p.medium{ 
+		font-size:19px;
+		line-height:32px;
+	}
+
+	#main a { font-weight: normal; text-transform: lowercase; color:blue; }
+	
+	#map {
+			
+		padding-top: 0px;
+    	padding-right: 0px;
+    	padding-bottom: 0px;
+    	padding-left: 0px;
+    	
+    	margin-top: 0%;
+		margin-bottom: 0%;
+		margin-right: 0%;
+		margin-left: 0%;
+		
+		width: 100%;
+		height: 82vh;
+		
+		background-color: white;
+	}
+	
+	.nicebox {
+          text-align: center;
+          font-family: "Roboto", "Arial", sans-serif;
+          font-size: 13px;
+          z-index: 5;
+          box-shadow: 0 4px 6px -4px #333;
+          /*padding: 5px 10px;*/
+          background: rgb(255,255,255);
+          background: linear-gradient(to bottom,rgba(255,255,255,1) 0%,rgba(245,245,245,1) 100%);
+          border: rgb(0, 0, 0) 2px solid;
+	}
+	
+	#img-box {
+	
+		position: absolute;
+		top : 40%;
+		right: 30%;
+		width: 100px;
+		height: 100px;
+		background-color: gray;
+		display: none;
+		
+		transition-property: display;
+		transition-duration: 7s;
+	}
+
+	 .labels {
+     color: white;
+     background-color: red;
+     font-family: "Lucida Grande", "Arial", sans-serif;
+     font-size: 10px;
+     text-align: center;
+     width: 10px;     
+     white-space: nowrap;
+   }
+   
+   img {
+   		/*transition-property: width;
+   		transition-duration: 0.1s;*/
+   }
+   
+   img.picBig {
+   		width:100%; margin-left:10px; z-index: 0; cursor: zoom-out;
+   }
+   
+	img.picMd {
+   		width:300px; margin-left:10px; border: 1px solid black; z-index: 1; cursor: zoom-in;
+   }
+   
+	img.picSmall {
+   		width:150px; margin-left:10px; border: 1px solid black; z-index: 2;
+   }
+   
+   span.rightBig {
+   		display: block;
+   		content: "<<";
+   		float:right;
+   }
+   
+    span.leftBig {
+    	display: block;
+    	content: ">>";
+   		float:left; margin-left:15px; 
+   }
+   
+    span.rightSmall {
+    	display: none;
+   }
+   
+    span.leftSmall {
+    	display: none;
+   }
+   
+   center.titleBig {
+   		color:#b22222;
+   		padding-top:5px;
+   		padding-bottom:5px;
+   		font-size:120%;
+   		font-style: oblique;
+   		font-weight: bold;
+   }
+   
+	center.titleSmall {
+   		color:#b22222;
+   		padding-top:5px;
+   		padding-bottom:5px;
+   		font-size:90%;
+   		font-style: oblique;
+   		font-weight: bold;
+   }
+
+	hr.lineSmall , hr.lineBig {
+		display: block;
+		margin-left:15px;
+	}
+	
+
+	    	
+/* ====================================================================<( aside )>=== */
+
+
+/* ===================================================================<( footer )>=== */	
+	footer {
+	
+    	position: relative;
+    	bottom: 0;
+     		
+    	clear: left;
+		/* background: #000033;  */
+		/*background: #323232;*/
+		
+		padding-top: 4px;	
+		padding-left: 10px;
+		padding-right: 10px;
+		padding-bottom: 10px;
+		
+		margin-top: 0px; 
+		
+		text-align: right;	
+		opacity: 1; 
+     }
+
+	footer p{
+		/*  clear: both; */
+		/*text-align: center;*/
+		padding-top: 10px;
+    	padding-right: 0px;
+    	padding-bottom: 0px;
+    	padding-left: 0px;
+    	font-size: 1em;
+    	text-transform: inherit;
+    	 
+		line-height: 0em;
+		
+		margin-top: 5px; 
+		margin-bottom: 0px; 
+		
+	}
+	
+	#picWin {
+		position: absolute;
+		top : 10%;
+		width: 100px;
+		height: 90px;
+		background-color: red;
+		display: block;
+		
+	}
+	
+/* ================================================================================== */   		
+/* =============================<( change elements as width of screen decreases )>=== */
+/* ================================================================================== */   		
+
+@media screen and (max-width:680px) {
+
+	/* -------------------------------------------------------<( general layout )>--- */	
+
+	/*  Change the lay out of all parts */
+	
+	header {
+		margin-top: 0px;
+		padding-top: 0px;
+		padding-bottom: 0px;
+		/*background: url(img/bq.jpg) no-repeat top center ; */
+		background-color: white; 
+		
+	}
+	
+	header h1.title {
+		font-family:  "Arial Black", Helvetica, sans-serif;
+  		white-space: pre;
+  		
+  		/*max-width: 1200px;*/
+  		width: 1300px;
+		margin: auto;
+
+    	line-height: 0.6em; 
+    	font-size: 1rem;
+   		/*color: #000066;*/
+   		
+   		padding-top: 20px;
+    	padding-right: 0px;
+    	padding-bottom: 10px;
+    	padding-left: 0px;
+    	
+    	/*text-decoration: underline;
+    	/*text-shadow: 2px 2px #000046;*/
+    	
+    	/*background-color:white;*/
+	}
+	
+	#main_part {
+    	margin-top: auto;
+		max-width: 1300px;
+		max-height: 88vh;
+		margin: auto;
+			
+	}
+	
+	#main {
+    	float: left;
+        clear: left;
+        width: 100%;
+        margin-left: 0px;
+   	}
+   	
+   	#map {
+	
+		border:1px solid;
+		
+		padding-top: 0px;
+    	padding-right: 0px;
+    	padding-bottom: 0px;
+    	padding-left: 0px;
+    	
+    	margin-top: 0%;
+		margin-bottom: 0%;
+		margin-right: 0%;
+		margin-left: 0%;
+		
+		width: 100%;
+		height: 86vh;
+		
+		background-color: white;
+	}
+   	
+   img.picBig {
+   		width:100%; margin-left:10px; z-index: 3; cursor: zoom-out;
+   }
+   
+   img.picMd {
+   		width:250px; margin-left:10px; border: 1px solid black; cursor: zoom-in;
+   }
+   
+	img.picSmall {
+   		width:150px; margin-left:10px; border: 1px solid black;
+   }
+
+   center.titleBig {
+   		color:#b22222;
+   		padding-top:5px;
+   		padding-bottom:5px;
+   		font-size:100%;
+   		font-style: oblique;
+   		font-weight: bold;
+   		display: block;
+   }
+   
+	center.titleSmall {
+   		color:#b22222;
+   		padding-top:5px;
+   		padding-bottom:5px;
+   		font-size:10%;
+   		font-style: oblique;
+   		font-weight: bold;
+   		display: none;
+   }
+
+   	
+	hr.lineSmall {
+		display: none;
+	}
+	
+		footer {
+	
+    	position: relative;
+    	bottom: 0;
+     		
+    	clear: left;
+		/* background: #000033;  */
+		/*background: #323232;*/
+		
+		padding-top: 4px;	
+		padding-left: 10px;
+		padding-right: 10px;
+		padding-bottom: 10px;
+		
+		margin-top: 0px; 
+		
+		text-align: right;	
+		opacity: 1; 
+     }
+
+	footer p{
+		/*  clear: both; */
+		/*text-align: center;*/
+		padding-top: 2px;
+    	padding-right: 0px;
+    	padding-bottom: 0px;
+    	padding-left: 0px;
+    	font-size: 0.8em;
+    	text-transform: inherit;
+    	 
+		line-height: 0em;
+		
+		margin-top: 5px; 
+		margin-bottom: 0px; 
+		
+	}
+    	
+  	
+  	
+  
+}
