@@ -340,7 +340,7 @@
 	}
    	
    img.picBig {
-   		width:100%; margin-left:10px; z-index: 3; cursor: zoom-out;
+   		width:80%; margin-left:10px; z-index: 3; cursor: zoom-out;
    }
    
    img.picMd {

@@ -133,8 +133,12 @@ function createMarkers() {
 function setLocations() {
 	locations = [];
     for(i=0; i<locationInfo.length; i++) {
-        var location =  { lat:locationInfo[i][ indexLocInfo_lat ], lng:locationInfo[i][ indexLocInfo_lng ] };
-        locations.push(location);
+        var location =  { 
+            lat:locationInfo[i][ indexLocInfo_lat ], 
+            lng:locationInfo[i][ indexLocInfo_lng ] 
+        };
+        //locations.push(location);
+        locations[i] = location;
     }
 }
 
@@ -149,6 +153,9 @@ function setAllInfoWinsOff() {
 
 function setInfoWinOff(id) {
     locationInfo[id][indexLocInfo_clicked] = false;
+    //window.alert("isClicked("+id+"): "+locationInfo[id][indexLocInfo_clicked]);
+    //window.alert("isClicked("+id+"): "+isClicked(id));
+    //window.alert("clicked: "+locationInfo[id][indexLocInfo_clicked]);
 }
 
 function setInfoWinOn(id) {
@@ -182,14 +189,12 @@ function clickEvent(marker) {
     marker.addListener('click', mouseClick);
     function mouseClick() {
 
-    	map.setCenter(marker.getPosition());
-
         var i = getIndexLocationOf(marker);
         var clicked = isClicked(i);
 
         var id = i.toString();
         var title = locationInfo[i][ indexLocInfo_name ];
-        var link = locationInfo[i][ indexLocInfo_link ];
+        //var link = locationInfo[i][ indexLocInfo_link ];
         var n = locationInfo[i][ indexLocInfo_numOfPics ];
         var markerPicsDir = locationInfo[i][ indexLocInfo_picDir ];
         var pics = []; // stores all the marker's pics in the dir
@@ -204,8 +209,8 @@ function clickEvent(marker) {
     		nextStyle = " color:blue; cursor:pointer;";
     	}
 
-        for(i=0; i<n; i++) {
-        	var pic = picDir + markerPicsDir + i.toString() + ".jpg";
+        for(k=0; k<n; k++) {
+        	var pic = picDir + markerPicsDir + k.toString() + ".jpg";
         	pics.push(pic);	
         }
 
@@ -217,18 +222,24 @@ function clickEvent(marker) {
 
         var infowindow = new google.maps.InfoWindow();
         infowindow.setContent(content);
-        infowindow.addListener('closeclick', infowindowClose);
+        infowindow.addListener('closeclick', infowindowClose );
         function infowindowClose() {
         	//locationPicsOnOff[id] = false;
-            setInfoWinOff(i);
-            resetCurrentPic(i);
+            setInfoWinOff(id);
+            //window.alert("infowindowClose(id): isClicked("+id+"): "+isClicked(id));
+            resetCurrentPic(id);
         }
 
-		if(!clicked) {
+		if(!isClicked(id)) {
+            map.setCenter(marker.getPosition());
+            //window.alert("isClicked("+id+"): "+isClicked(id));
 			infowindow.open(map, marker);
         	//locationPicsOnOff[id] = true;
             setInfoWinOn(id);
 		}
+        else {
+            //window.alert("isClicked("+id+"): "+isClicked(id));
+        }
 
         map.addListener('zoom_changed', zoomChecker);
 
@@ -240,8 +251,9 @@ function clickEvent(marker) {
 
         	if (df > 0) {
         		//window.alert(" > window.alert: "+window.alert);
-        		for(i=0; i<locationPicsOnOff.length; i++) {
-        			if (locationPicsOnOff[i]==true) {
+        		for(i=0; i<locationInfo.length; i++) {
+                    var clicked = isClicked(i);
+        			if (clicked) {
         				try {
         					var controlText = document.getElementById(id);
         					controlText.className = "picSmall";
@@ -298,7 +310,7 @@ function clickEvent(marker) {
 // ======================================================================================
 //  use for finding locations in the locations array                                       < Checked >
 // --------------------------------------------------------------------------------------
-function getIndexLocationOf( marker ) {
+function getIndexLocationOf(marker) {
   var location = marker.getPosition();
   var lat = parseFloat(location.lat()).toFixed(5); //ok
   var lng = parseFloat(location.lng()).toFixed(5); //ok
@@ -309,7 +321,7 @@ function getIndexLocationOf( marker ) {
     latP = parseFloat(locations[i].lat).toFixed(5); // ok
     lngP = parseFloat(locations[i].lng).toFixed(5); // ok
     if ( lat == latP && lng == lngP ){
-      index = i;
+      index = i
     }
   }
   return index;
