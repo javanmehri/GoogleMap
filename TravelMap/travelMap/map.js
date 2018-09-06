@@ -2,7 +2,22 @@
 const zoomLevel_start = 2;
 const centerPoint_start = {lat:25, lng:10} ; 
 const picDir = "travelMap/img/";
-const markerIcon = 'travelMap/img/icons/flagGreen.png';
+
+const icon_flagGreen = 'travelMap/img/icons/flagGreen.png';
+const icon_flagBlue = 'travelMap/img/icons/flagBlue.png';
+const icon_flagPink = 'travelMap/img/icons/flagPink.png';
+
+const icon_pinGreen = 'travelMap/img/icons/pinGreen.png';
+const icon_pinBlue = 'travelMap/img/icons/pinBlue.png';
+const icon_pinPink = 'travelMap/img/icons/pinPink.png';
+
+const icon_outsideChartreuse= 'travelMap/img/icons/outsideChartreuse.png';
+const icon_outsideAzure = 'travelMap/img/icons/outsideAzure.png';
+const icon_outsidePink = 'travelMap/img/icons/outsidePink.png';
+
+var iconScale = 50;
+
+var markerIcon = icon_flagBlue;
 
 // map vars
 var map;
@@ -59,11 +74,16 @@ function initMap() {
   	// add a controlls to the map 
   	globeControlDiv = document.createElement('div');
   	globeControl = new GlobeControl(globeControlDiv, map);
-    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(globeControlDiv);
+    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(globeControlDiv);
 
     pinControlDiv = document.createElement('div');
   	globeControl = new PinControl(pinControlDiv, map);
-    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(pinControlDiv);
+    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(pinControlDiv);
+    
+    iconControlDiv =  document.createElement('div');
+    iconControl = new IconControl(iconControlDiv, map);
+    map.controls[google.maps.ControlPosition.LEFT_TOP].push(iconControlDiv);
+
 }
 
 function resetMap() {
@@ -88,7 +108,7 @@ function createBaseMap() {
     	zoomControl: true,
 		mapTypeControl: true,
     	scaleControl: true,
-    	streetViewControl: false,
+    	streetViewControl: true,
     	rotateControl: true,
     	fullscreenControl: true,
     	mapTypeControlOptions: {
@@ -109,6 +129,7 @@ function createMarkers() {
     var myIcon = {
          url: markerIcon, // url
          rotation: 45,
+         scaledSize: new google.maps.Size(iconScale, iconScale),
          origin: new google.maps.Point(0,0), // origin
          labelOrigin: new google.maps.Point(20,-10) //OK
     };
@@ -371,77 +392,10 @@ function deleteMarker(marker) {
   marker = null;
 }
 
-// ======================================================================================
-//  creates the reset control of the map                                                   < Checked >
-// --------------------------------------------------------------------------------------
-function GlobeControl(controlDiv, map) {
 
-        // Set CSS for the control border.
-        var controlUI = document.createElement('div');
-        //controlUI.style.backgroundColor = '#fff';
-        //controlUI.style.border = '4px solid #fff';
-        controlUI.style.borderRadius = '20px';
-        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-        controlUI.style.cursor = 'pointer';
-        controlUI.style.marginBottom = '2px';
-        controlUI.style.marginRight = '14px';
-        controlUI.style.marginTop = '18px';
-        controlUI.style.textAlign = 'center';
-        controlUI.title = 'Click to reset the map';
-        controlDiv.appendChild(controlUI);
 
-        // Set CSS for the control interior.
-        var controlText = document.createElement('div');
-        controlText.style.color = 'rgb(25,25,25)';
-        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-        controlText.style.fontSize = '32px';
-        controlText.style.lineHeight = '20px';
-        controlText.style.paddingLeft = '0px';
-        controlText.style.paddingRight = '0px';
-        controlText.innerHTML = '&#127760;';  	
-        //controlText.innerHTML = '&#128204;';
-        controlUI.appendChild(controlText);
 
-        // Setup the click event listeners: simply set the map to Chicago.
-        controlUI.addEventListener('click', function() {
-        	zoomLevel = zoomLevel_start;
-        	centerPoint = centerPoint_start ; 
-            resetAlltoUnMagnified();
-          	initMap();
-        });
-}
 
-function PinControl(controlDiv, map) {
-
-        // Set CSS for the control border.
-        var controlUI = document.createElement('div');
-        controlUI.style.cursor = 'pointer';
-        controlUI.style.marginBottom = '2px';
-        controlUI.style.marginRight = '14px';
-        controlUI.style.marginTop = '18px';
-        controlUI.style.textAlign = 'center';
-        controlUI.title = 'Click to reset all the markers';
-        controlDiv.appendChild(controlUI);
-
-        // Set CSS for the control interior.
-        var controlText = document.createElement('div');
-        controlText.style.color = 'rgb(25,25,25)';
-        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-        controlText.style.fontSize = '32px';
-        controlText.style.lineHeight = '20px';
-        controlText.style.paddingLeft = '0px';
-        controlText.style.paddingRight = '0px';
-        //controlText.innerHTML = '&#127760;';  	
-        controlText.innerHTML = '&#128204;';
-        controlUI.appendChild(controlText);
-
-        // Setup the click event listeners: simply set the map to Chicago.
-        controlUI.addEventListener('click', function() {
-        	zoomLevel = map.getZoom();
-        	centerPoint = map.getCenter() ; 
-            resetMap();
-        });
-}
 
 
 function resetAlltoUnMagnified() {
@@ -568,6 +522,133 @@ function picWin(id) {
 
 }
 
+
+// ======================================================================================
+//  creates the reset control of the map                                                   < Checked >
+// --------------------------------------------------------------------------------------
+function GlobeControl(controlDiv, map) {
+
+        // Set CSS for the control border.
+        var controlUI = document.createElement('div');
+        //controlUI.style.backgroundColor = '#fff';
+        //controlUI.style.border = '4px solid #fff';
+        controlUI.style.borderRadius = '20px';
+        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.marginBottom = '2px';
+        controlUI.style.marginRight = '14px';
+        controlUI.style.marginTop = '12px';
+        controlUI.style.textAlign = 'center';
+        controlUI.title = 'Click to reset the map';
+        controlDiv.appendChild(controlUI);
+
+        // Set CSS for the control interior.
+        var controlText = document.createElement('div');
+        controlText.style.color = 'rgb(25,25,25)';
+        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+        controlText.style.fontSize = '32px';
+        controlText.style.lineHeight = '20px';
+        controlText.style.paddingLeft = '0px';
+        controlText.style.paddingRight = '0px';
+        controlText.innerHTML = '&#127760;';    
+        //controlText.innerHTML = '&#128204;';
+        controlUI.appendChild(controlText);
+
+        // Setup the click event listeners: simply set the map to Chicago.
+        controlUI.addEventListener('click', function() {
+            zoomLevel = zoomLevel_start;
+            centerPoint = centerPoint_start ; 
+            resetAlltoUnMagnified();
+            initMap();
+        });
+}
+
+function PinControl(controlDiv, map) {
+
+        // Set CSS for the control border.
+        var controlUI = document.createElement('div');
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.marginBottom = '2px';
+        controlUI.style.marginRight = '14px';
+        controlUI.style.marginTop = '20px';
+        controlUI.style.textAlign = 'center';
+        controlUI.title = 'Click to reset all the markers';
+        controlDiv.appendChild(controlUI);
+
+        // Set CSS for the control interior.
+        var controlText = document.createElement('div');
+        controlText.style.color = 'rgb(25,25,25)';
+        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+        controlText.style.fontSize = '32px';
+        controlText.style.lineHeight = '20px';
+        controlText.style.paddingLeft = '0px';
+        controlText.style.paddingRight = '0px';
+        //controlText.innerHTML = '&#127760;';      
+        controlText.innerHTML = '&#9889;';
+        controlUI.appendChild(controlText);
+
+        // Setup the click event listeners: simply set the map to Chicago.
+        controlUI.addEventListener('click', function() {
+            zoomLevel = map.getZoom();
+            centerPoint = map.getCenter() ; 
+            resetMap();
+        });
+}
+
+function IconControl(controlDiv, map) {
+
+        // Set CSS for the control border.
+        var controlUI = document.createElement('div');
+        controlUI.className = 'selectContainer';
+        controlUI.title = 'Click to reset all the markers';
+        controlDiv.appendChild(controlUI);
+
+        // Set CSS for the control interior.
+        var controldropDown = document.createElement('div');
+        controldropDown.className = 'dropDownControl';
+        controldropDown.id ='ddControl';         
+        controldropDown.innerHTML = '<img class="iconItem" id="selectedIcon" src="'+markerIcon+'"/> <img class="dropDownArrow" src="http://maps.gstatic.com/mapfiles/arrow-down.png"/>';
+        controldropDown.addEventListener('click', function() {
+            (document.getElementById('myddOptsDiv').style.display == 'block') ? document.getElementById('myddOptsDiv').style.display = 'none' : document.getElementById('myddOptsDiv').style.display = 'block';
+        });
+        controlUI.appendChild(controldropDown);
+
+        var dropDownOptionsDiv = document.createElement('div'); // dropDownOptionsDiv
+        dropDownOptionsDiv.className = 'dropDownOptionsDiv';
+        dropDownOptionsDiv.id = 'myddOptsDiv';
+        controldropDown.appendChild(dropDownOptionsDiv);
+
+        addIconItem(dropDownOptionsDiv, icon_flagGreen);
+        addIconItem(dropDownOptionsDiv, icon_flagBlue);
+        addIconItem(dropDownOptionsDiv, icon_flagPink);
+        addIconItem(dropDownOptionsDiv, icon_pinGreen);
+        addIconItem(dropDownOptionsDiv, icon_pinBlue);
+        addIconItem(dropDownOptionsDiv, icon_pinPink);
+        addIconItem(dropDownOptionsDiv, icon_outsideAzure);
+        addIconItem(dropDownOptionsDiv, icon_outsideChartreuse);
+        addIconItem(dropDownOptionsDiv, icon_outsidePink);
+
+
+
+        // Setup the click event listeners: simply set the map to Chicago.
+
+}
+
+function addIconItem(dropDownOptionsDiv, icon) {
+        var dropDownItemDiv = document.createElement('div');
+        dropDownItemDiv.className = 'dropDownItemDiv'; // mapOpt
+        dropDownItemDiv.id = 'mapOpt';
+        dropDownItemDiv.innerHTML = '<img class="iconItem" src="'+icon+'"/>';
+        dropDownItemDiv.addEventListener('click', function() {
+            //window.alert("*****");
+            markerIcon = icon;
+            document.getElementById('selectedIcon').src = markerIcon;
+            zoomLevel = map.getZoom();
+            centerPoint = map.getCenter(); 
+            resetMap();
+        });
+        dropDownOptionsDiv.appendChild(dropDownItemDiv);
+}
 
 
 

@@ -23,6 +23,222 @@
 				
 
 /* ===================================================================<( Header )>=== */
+
+
+
+.selectContainer{
+  z-index: -1; 
+  cursor: pointer;
+  text-align: center;
+  z-index: 0;
+  margin-bottom: 2px;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-top: 0px;
+  width: 45px;
+}
+
+.dropDownControl{
+    direction: ltr; 
+    overflow-x: hidden; 
+    overflow-y: hidden; 
+    text-align: left; 
+    position: relative; 
+    font-family: Arial, sans-serif; 
+    -webkit-user-select: none; 
+    font-size: 10px; 
+    padding-top: 1px; 
+    padding-right: 5px; 
+    padding-left: 0px; 
+    padding-bottom: 1px; 
+    border-top-width: 1px; 
+    border-right-width: 1px; 
+    border-bottom-width: 1px; 
+    border-left-width: 1px; 
+    border-top-style: solid; 
+    border-right-style: solid; 
+    border-bottom-style: solid; 
+    border-left-style: solid; 
+    border-top-color: rgb(113, 123, 135); 
+    border-right-color: rgb(113, 123, 135); 
+    border-bottom-color: rgb(113, 123, 135); 
+    border-left-color: rgb(113, 123, 135); 
+    border-image: initial; 
+    -webkit-box-shadow: rgba(0, 0, 0, 0.398438) 0px 2px 4px; 
+    box-shadow: rgba(0, 0, 0, 0.398438) 0px 2px 4px; 
+    color: rgb(0, 0, 0); 
+    font-weight: bold; 
+    background-image: initial; 
+    background-attachment: initial; 
+    background-origin: initial; 
+    background-clip: initial; 
+    background-color: rgb(255, 255, 255); 
+    background-position: initial initial; 
+    background-repeat: initial initial;     
+    z-index: 2;
+}
+
+
+.dropDownArrow{
+    -webkit-user-select: none; 
+    border-width: 0px; 
+    border-style: initial; 
+    border-color: initial; 
+    border-image: initial; 
+    padding: 0px; 
+    margin-right: 0px; 
+    margin-bottom: 0px; 
+    margin-left: 0px; 
+    position: absolute; 
+    right: 4px; 
+    top: 50%;
+    margin-top: -2px; 
+    width: 7px; 
+    height: 4px; 
+}
+
+.dropDownOptionsDiv{
+    background-color: white; 
+    z-index: 0; 
+    padding-top: 2px; 
+    border-right-width: 1px; 
+    border-bottom-width: 1px; 
+    border-left-width: 1px; 
+    border-right-style: solid; 
+    border-bottom-style: solid; 
+    border-left-style: solid; 
+    border-right-color: rgb(113, 123, 135); 
+    border-bottom-color: rgb(113, 123, 135); 
+    border-left-color: rgb(113, 123, 135); 
+    border-image: initial; 
+    border-top-width: 0px; 
+    border-top-style: initial; 
+    border-top-color: initial; 
+    -webkit-box-shadow: rgba(0, 0, 0, 0.398438) 0px 2px 4px; 
+    box-shadow: rgba(0, 0, 0, 0.398438) 0px 2px 4px; 
+    position: relative; 
+    text-align: left; 
+    display: none;
+}
+
+.dropDownItemDiv{
+    font-family: Arial, sans-serif; 
+    -webkit-user-select: none; 
+    font-size: 13px; 
+    padding-top: 2px; 
+    padding-right: 5px; 
+    padding-bottom: 3px; 
+    padding-left: 5px; 
+    background-color: rgb(220, 220, 220); 
+    color: black;       
+}
+
+.dropDownItemDiv:hover, .checkboxContainer:hover{
+    background-color: rgb(250, 250, 250);     
+
+}
+
+.dropDownControl:hover{
+    background: -webkit-linear-gradient(top,rgb(255,255,255),rgb(230,230,230));
+}
+
+.separatorDiv{
+    margin-top: 1px; 
+    margin-right: 0px; 
+    margin-bottom: 1px; 
+    margin-left: 0px; 
+    border-top-width: 1px; 
+    border-top-style: solid; 
+    border-top-color: rgb(235, 235, 235); 
+}
+
+.checkboxContainer{
+    font-family: Arial, sans-serif; 
+    -webkit-user-select: none; 
+    font-size: 11px; 
+    padding-top: 1px; 
+    padding-bottom: 3px; 
+    padding-left: 5px; 
+    direction: ltr; 
+    text-align: left; 
+    background-color: rgb(255, 255, 255); 
+    white-space: nowrap; 
+    padding-right: 8px; 
+    color: rgb(0, 0, 0); 
+} 
+
+.checkboxSpan{
+    box-sizing: border-box; 
+    position: relative; 
+    line-height: 0; 
+    font-size: 0px; 
+    margin-top: 0px; 
+    margin-right: 5px; 
+    margin-bottom: 0px; 
+    margin-left: 0px; 
+    display: inline-block; 
+    background-color: rgb(255, 255, 255); 
+    border-width: 1px; 
+    border-style: solid; 
+    border-color: initial; 
+    border-image: initial; 
+    border-top-left-radius: 1px; 
+    border-top-right-radius: 1px; 
+    border-bottom-right-radius: 1px; 
+    border-bottom-left-radius: 1px; 
+    width: 13px; 
+    height: 13px; 
+    vertical-align: middle; 
+    -webkit-box-shadow: none; 
+    box-shadow: none; 
+    border-color: rgb(198, 198, 198);       
+}
+
+.blankDiv{
+    position: absolute; 
+    left: 1px; 
+    top: -2px; 
+    width: 13px; 
+    height: 11px; 
+    overflow-x: hidden; 
+    overflow-y: hidden; 
+    display: none; /*when = block -> this is the "check" symbol*/ 
+}
+
+.blankImg{
+    position: absolute; 
+    left: -52px; 
+    top: -44px; 
+    -webkit-user-select: none; 
+    border-width: 0px; 
+    border-style: initial; 
+    border-color: initial; 
+    border-image: initial; 
+    padding: 0px; 
+    margin: 0px; 
+    -webkit-user-drag: none; 
+    width: 68px; 
+    height: 67px; 
+}
+
+.checkboxLabel{
+    vertical-align: middle; 
+    cursor: pointer;
+}
+
+.iconItem {
+	width: 30px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-right:5px;
+}
+
+
+
+
+
+
+
 	header {
        		
 		width: 100%;
@@ -33,7 +249,7 @@
 		margin-bottom: 0px;
 		
 		/*background: url(img/bq.jpg) no-repeat top center ; */
-		background-color: white; 		
+		/*background-color: white; 	*/	
 	}
 	
 	.title {
@@ -45,51 +261,24 @@
     	font-size: 2.0vw;
    		/*color: #000066;*/
    		
-   		padding-top: 50px;
+   		padding-top: 40px;
     	padding-right: 0px;
     	padding-bottom: 0px;
     	padding-left: 0px;
     	margin-left: 5px;
-    	margin-bottom: 0px; 	    	
+    	margin-bottom: 25px; 	    	
     	/*text-decoration: underline;
     	/*text-shadow: 2px 2px #000046;*/    	
     	/*background-color:white;*/
 	}
 	
-	#controls {
-		  float: right;
-		  /*position: absolute;
-          top: 60px;
-          right: 17vh;*/
-          width: 288px;
-          height: 40px;
-          margin-top: 30px;
-          margin-left:0px;
-          margin-right:7px;
-          
-		  margin-bottom: 10px;
-          /*border: rgb(0, 0, 0) 1px solid;*/
-	}
-	
-	#description {
-		margin-top: 15px;
-		margin-bottom: 0px;
-		margin-left: 20px;
-		font-size: 16px;
-		text-align: left;
-	}
-	
-	#select_icon {
-	      width: 80px;
-          height: 20px;
-	}
 	
 /* ==================================================================<( main_part )>=== */
 	
 	#main_part {
     	margin-top: auto;
 		max-width: 1300px;
-		max-height: 82vh;
+		max-height: 86vh;
 		margin: auto;
 			
 	}
@@ -288,7 +477,6 @@
 		margin-bottom: 0px;
 		
 		/*background: url(img/bq.jpg) no-repeat top center ; */
-		background-color: white; 		
 	}
 	
 	.title {
@@ -305,36 +493,12 @@
     	padding-bottom: 0px;
     	padding-left: 0px;
     	margin-left: 5px;
-    	margin-bottom: 0px;
+    	margin-bottom: 20px;
     	    	
     	/*text-decoration: underline;
     	/*text-shadow: 2px 2px #000046;*/
     	
     	/*background-color:white;*/
-	}
-	
-	#controls {
-	
-		float: right;
-		  /*position: absolute;
-          top: 60px;
-          right: 17vh;*/
-          width: 266px;
-          height: 40px;
-          margin-top: 12px;
-          margin-left:0px;
-          margin-right:5px;
-          
-		  margin-bottom: 5px;
-          /*border: rgb(0, 0, 0) 1px solid;*/
-	}
-	
-	#description {
-		margin-top: 15px;
-		margin-bottom: 0px;
-		margin-left: 20px;
-		font-size: 14px;
-		text-align: left;
 	}
 	
 	
@@ -357,7 +521,6 @@
 		padding-bottom: 0px;
 		margin-bottom: 0px;
 		/*background: url(img/bq.jpg) no-repeat top center ; */
-		background-color: white; 		
 	}
 	
 	.title {
@@ -366,7 +529,7 @@
   		/*max-width: 1200px;*/
     	line-height: 1em; 
     	text-height: 0px;
-    	font-size: 2vw;
+    	font-size: 2.4vw;
    		/*color: #000066;*/
    		
    		padding-top: 10px;
@@ -374,38 +537,12 @@
     	padding-bottom: 0px;
     	padding-left: 0px;
     	margin-left: 10px;
-    	margin-bottom: 0px;
+    	margin-bottom: 7px;
     	    	
     	/*text-decoration: underline;
     	/*text-shadow: 2px 2px #000046;*/
     	
     	/*background-color:white;*/
-	}
-	
-		
-	#controls {
-	
-		float: right;
-		  /*position: absolute;
-          top: 60px;
-          right: 17vh;*/
-          width: 232px;
-          height: 30px;
-          margin-top: 0px;
-          margin-left:0px;
-          margin-right:5px;
-          padding-top:0px;
-          
-		  margin-bottom: 0px;
-          /*border: rgb(0, 0, 0) 1px solid;*/
-	}
-	
-	#description {
-		margin-top: 8px;
-		margin-bottom: 0px;
-		margin-left: 20px;
-		font-size: 11px;
-		text-align: left;
 	}
 	
 		
