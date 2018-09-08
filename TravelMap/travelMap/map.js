@@ -17,7 +17,7 @@ const icon_outsidePink = 'travelMap/img/icons/outsidePink.png';
 
 var iconScale = 50;
 
-var markerIcon = icon_flagBlue;
+var markerIcon = icon_flagPink;
 
 // map vars
 var map;
@@ -27,19 +27,26 @@ var locations = [];
 var markers = [];
 var markerCluster;
 
+
 // location data
 var locationInfo = [
-	['Persepolis, Entrance'   			  , 29.936061, 52.888546, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_e/',    1, 0, false, false],
-    ['Persepolis, Gathe Of All Nations'   , 29.936218, 52.889074, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_goan/', 8, 0, false, false],
-    ['Persepolis, The eagle-griffin'	  , 29.936539, 52.889715, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_eg/',   2, 0, false, false],
-    ['Persepolis, The Unfinished Gate'	  , 29.936310, 52.890645, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_ug/',   3, 0, false, false],
-    ['Persepolis, The Hundred Column Hall', 29.935345, 52.891043, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_hch/', 15, 0, false, false],
-    ['Persepolis, The Apadana Palace'	  , 29.935177, 52.889596, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_a/',   15, 0, false, false],
-    ['Persepolis, The Tachara Palace'	  , 29.934397, 52.889602, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_t/',    9, 0, false, false],
-    ['Persepolis, Tomb of Artaxerxes III' , 29.935828, 52.892438, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_toa/',  3, 0, false, false],
-    ['Shiraz, Tomb Of Hafez'			  , 29.625829, 52.558476, 'https://www.flickr.com/photos/126978341@N07/albums/72157700531417744', 	'places/shir_toh/', 4, 0, false, false],
-    ['Shiraz, Karim Khan Citadel'		  , 29.617685, 52.544715, 'https://www.flickr.com/photos/126978341@N07/albums/72157700531417744', 	'places/shir_kkc/', 4, 0, false, false],
-    ['Shiraz, Tomb Of Sa\'di'			  , 29.622535, 52.583137, 'https://www.flickr.com/photos/126978341@N07/albums/72157700531417744', 	'places/shir_tos/', 4, 0, false, false],
+	['Persepolis, Entrance'   			  , 29.936061, 52.888546, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_e/',    1, 0, false, false, 0],
+    ['Persepolis, Gathe Of All Nations'   , 29.936218, 52.889074, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_goan/', 8, 0, false, false, 0],
+    ['Persepolis, The eagle-griffin'	  , 29.936539, 52.889715, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_eg/',   2, 0, false, false, 0],
+    ['Persepolis, The Unfinished Gate'	  , 29.936310, 52.890645, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_ug/',   3, 0, false, false, 0],
+    ['Persepolis, The Hundred Column Hall', 29.935345, 52.891043, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_hch/', 15, 0, false, false, 0],
+    ['Persepolis, The Apadana Palace'	  , 29.935177, 52.889596, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_a/',   15, 0, false, false, 0],
+    ['Persepolis, The Tachara Palace'	  , 29.934397, 52.889602, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_t/',    9, 0, false, false, 0],
+    ['Persepolis, Tomb of Artaxerxes III' , 29.935828, 52.892438, 'https://www.flickr.com/photos/126978341@N07/albums/72157687187391943', 	'places/prs_toa/',  3, 0, false, false, 0],
+    ['Shiraz, Tomb Of Hafez'			  , 29.625829, 52.558476, 'https://www.flickr.com/photos/126978341@N07/albums/72157700531417744', 	'places/shir_toh/', 4, 0, false, false, 0],
+    ['Shiraz, Karim Khan Citadel'		  , 29.617685, 52.544715, 'https://www.flickr.com/photos/126978341@N07/albums/72157700531417744', 	'places/shir_kkc/', 4, 0, false, false, 0],
+    ['Shiraz, Tomb Of Sa\'di'			  , 29.622535, 52.583137, 'https://www.flickr.com/photos/126978341@N07/albums/72157700531417744', 	'places/shir_tos/', 4, 0, false, false, 0],
+    ['Victoria, Butchart Gardens'         , 48.565053,-123.471012,'https://www.flickr.com/photos/126978341@N07/albums/72157699436461481',   'places/vic_bg/'  , 6, 0, false, false, 0],
+    ['Istanbul, Bosphorus Bridge'         , 41.091246, 29.061110, '',   'places/ist_bb/'  , 1, 0, false, false, 0],
+    ['Istanbul, The Blue Mosque'          , 41.005450, 28.976806, '',   'places/ist_bm/'  , 1, 0, false, false, 0],
+    ['Jordan, Petra, Al-Khazneh'          , 30.322033, 35.451521, '',   'places/ptr_kzn/'  , 6, 0, false, false, 0],
+    ['Burnaby, Burnaby Mountain Park'     , 49.282412, -122.933863, 'https://www.flickr.com/photos/126978341@N07/albums/72157646750198742',   'places/brn_bm/' , 10, 0, false, false, 0],
+    ['Tehran, Sabz Palace'                , 35.817873, 51.422147, '',   'places/thr_sp/' , 1, 0, false, false, 0],
     // <--------------------------------------------------  enter locations here ...
     /* add more locations here on the form :
     [ name, lat, long, gallery link address, pic directory, number of pics]
@@ -57,6 +64,7 @@ const indexLocInfo_numOfPics = 5;
 const indexLocInfo_currentPic = 6;
 const indexLocInfo_magnified = 7;
 const indexLocInfo_clicked = 8;
+const indexLocInfo_zoomAtClick = 9;
 
 
 var locationPicsOnOff = []; // stores tures if pic icon is already on
@@ -65,7 +73,7 @@ var locationPicsOnOff = []; // stores tures if pic icon is already on
 //	initialize the map with the options
 // --------------------------------------------------------------------------------------
 function initMap() {
-
+    
 	createBaseMap(); // creates the base map
 	createMarkers(); // creates the markers; not shows on the map until create marker clustes
 	createMarkerCluster(); // creates the marker clusters
@@ -84,16 +92,17 @@ function initMap() {
     iconControl = new IconControl(iconControlDiv, map);
     map.controls[google.maps.ControlPosition.LEFT_TOP].push(iconControlDiv);
 
+
 }
 
 function resetMap() {
-
     resetAlltoUnMagnified();
     deleteAllMarkers(markers);
     //createBaseMap(); // creates the base map
     createMarkers(); // creates the markers; not shows on the map until create marker clustes
     createMarkerCluster(); // creates the marker clusters
     //createIconLabels();
+    //adjustIconSizes();
     
 }
 
@@ -117,6 +126,8 @@ function createBaseMap() {
       	}
   };
   map = new google.maps.Map(mapCanvas, mapOptions);
+  //adjustIconSizes();
+
 
 }
 
@@ -224,10 +235,27 @@ function clickEvent(marker) {
 
         var i = getIndexLocationOf(marker);
         var clicked = isClicked(i);
+        var zoom = map.getZoom();
+        var dz = zoom - 10;
+
+        //window.alert("zoom"+zoom);
+
+        if(!clicked && dz<0) {
+            map.setZoom(10);
+        }
 
         var id = i.toString();
         var title = locationInfo[i][ indexLocInfo_name ];
-        //var link = locationInfo[i][ indexLocInfo_link ];
+        var url = locationInfo[i][ indexLocInfo_link ];
+        var zoomAtClick = locationInfo[i][indexLocInfo_zoomAtClick];
+        if(zoomAtClick == 0) {
+            locationInfo[i][indexLocInfo_zoomAtClick] = map.getZoom();
+
+        }
+        var href = '';
+        if(url!='') {
+            href = 'href="'+url +'"';
+        }
         var n = locationInfo[i][ indexLocInfo_numOfPics ];
         var markerPicsDir = locationInfo[i][ indexLocInfo_picDir ];
         var pics = []; // stores all the marker's pics in the dir
@@ -251,7 +279,8 @@ function clickEvent(marker) {
                       '<img onclick ="picWin('+id+');" class="picMd" id="'+id+'" src="' + pics[currentPicIndex] + '" ></img>'+
                       '<br> <span class="leftBig" id="'+id+'pre'+'" onclick="prePic('+id+')" style="color:gray;"> <b> Previous << </b> </span>'+
                       '<span class="rightBig" id="'+id+'next'+'" onclick="nextPic('+id+')" style='+nextStyle+'> <b> >> Next </b> </span>'+
-                      '<br> <hr class="lineBig" id="'+id+'line'+'" > <center class="titleBig" id="'+id+'cen'+'" > '+title+' </center>';
+                      '<br> <hr class="lineBig" id="'+id+'line'+'" > <center class="titleBig" id="'+id+'cen'+'" > '+title+' </center>'+ 
+                      '<a class="linkBig" id="'+id+'link'+'" '+href+'>see the album </a>';
 
         var infowindow = new google.maps.InfoWindow();
         infowindow.setContent(content);
@@ -276,10 +305,12 @@ function clickEvent(marker) {
 
         map.addListener('zoom_changed', zoomChecker);
 
-        var zoomLevelBefor = map.getZoom();
+        var zoomAtClick = locationInfo[i][indexLocInfo_zoomAtClick];
 
         function zoomChecker() {
-        	var df = zoomLevelBefor - map.getZoom();
+
+            //adjustIconSizes();
+        	var df = zoomAtClick - map.getZoom();
         	//window.alert(" > df: "+df);
 
         	if (df > 0) {
@@ -299,6 +330,8 @@ function clickEvent(marker) {
         					controlText.className = "titleSmall";
         					controlText = document.getElementById(id+'line');
         					controlText.className = "lineSmall";
+                            controlText = document.getElementById(id+'link');
+                            controlText.className = "linkSmall";
         				}
         				catch {
         				}
@@ -308,9 +341,9 @@ function clickEvent(marker) {
         	}
 
         	if (df < 0) {
-        		//window.alert(" > window.alert: "+window.alert);
-        		for(i=0; i<locationPicsOnOff.length; i++) {
-        			if (locationPicsOnOff[i]==true) {
+        		//window.alert(" ***");
+        		for(i=0; i<locationInfo.length; i++) {
+        			if (isClicked(i)) {
         				try {
         					var controlText = document.getElementById(id);
         					controlText.className = "picMd";
@@ -323,6 +356,8 @@ function clickEvent(marker) {
         					controlText.className = "titleBig";
         					controlText = document.getElementById(id+'line');
         					controlText.className = "lineBig";
+                            controlText = document.getElementById(id+'link');
+                            controlText.className = "linkBig";
         				}
         				catch {
 
@@ -559,6 +594,7 @@ function GlobeControl(controlDiv, map) {
             zoomLevel = zoomLevel_start;
             centerPoint = centerPoint_start ; 
             resetAlltoUnMagnified();
+            
             initMap();
         });
 }
@@ -649,6 +685,21 @@ function addIconItem(dropDownOptionsDiv, icon) {
         });
         dropDownOptionsDiv.appendChild(dropDownItemDiv);
 }
+
+/*
+function adjustIconSizes() {
+    var zoom = map.getZoom();
+    
+    if (zoom<5) {
+        iconScale = 30;
+    }
+    if (zoom>4) {
+        iconScale = 100;
+        //window.alert("zoom changed to: "+iconScale);
+    }
+}*/
+
+
 
 
 

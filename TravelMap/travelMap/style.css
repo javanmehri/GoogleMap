@@ -363,27 +363,34 @@
    }
    
 	img.picSmall {
-   		width:150px; margin-left:10px; border: 1px solid black; z-index: 2;
+   		width:150px; margin-left:0px; margin-bottom:0px; padding-bottom:0px; border: 1px solid black; z-index: 2;
    }
    
    span.rightBig {
    		display: block;
    		content: "<<";
    		float:right;
+   		text-height: 10px;
    }
    
     span.leftBig {
     	display: block;
     	content: ">>";
-   		float:left; margin-left:15px; 
+   		float:left; margin-left:15px;
+   		text-height: 10px; 
+   		line-height: 10px;
    }
    
     span.rightSmall {
     	display: none;
+    	text-height: 0px;
+    	line-height: 0px;
    }
    
     span.leftSmall {
     	display: none;
+    	text-height: 0px;
+    	line-height: 0px;
    }
    
    center.titleBig {
@@ -393,6 +400,8 @@
    		font-size:120%;
    		font-style: oblique;
    		font-weight: bold;
+   		text-height: 10px;
+   		line-height: 10px;
    }
    
 	center.titleSmall {
@@ -402,11 +411,35 @@
    		font-size:90%;
    		font-style: oblique;
    		font-weight: bold;
+   		text-height: 0px;
+   		line-height: 0px;
    }
 
-	hr.lineSmall , hr.lineBig {
+	hr.lineBig {
 		display: block;
 		margin-left:15px;
+		text-height: 10px;
+        line-height: 10px;
+	}
+	
+	hr.lineSmall {
+		display: none;
+		text-height: 0px;
+		line-height: 0px;
+	}
+	
+	a.linkBig {
+		display: block;
+		text-height: 10px;
+		line-height: 10px;
+		margin-top: 10px;
+	}
+	
+	a.linkSmall {
+		display: none;
+		text-height: 0px;
+		line-height: 0px;
+		margin-top: 0px;
 	}
 	
 
